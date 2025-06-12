@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digitization & AI Portal 🚀</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --main-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --main-bg: #f5f7fa;
+      --card-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --accent: #90EE90;
+      --accent-dark: #32CD32;
+      --border-rad: 18px;
+      --dark-bg: #181c24;
+      --dark-card: #23273a;
+      --dark-text: #e5e5e5;
+    }
+    body {
+      background: var(--main-gradient);
+      min-height: 100vh;
+      font-family: 'Calibri', 'Segoe UI', sans-serif;
+      margin: 0;
+      transition: background 0.5s;
+    }
+    body.dark {
+      background: #14151a;
+    }
+    .super-hero {
+      padding: 36px 0 28px 0;
+      text-align: center;
+      position: relative;
+      color: #fff;
+      overflow: hidden;
+    }
+    .super-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      margin-bottom: 0.25em;
+      background: linear-gradient(90deg, #90EE90 30%, #32CD32 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .super-hero p {
+      font-size: 1.2rem;
+      color: #f3ffe6;
+      margin-bottom: 1.2em;
+    }
+    .floating-icons {
+      position: absolute;
+      left: 0; right: 0; top: 0; pointer-events: none;
+      width: 100vw; height: 100%;
+      z-index: 0;
+    }
+    .floating-icons i {
+      position: absolute; opacity: 0.15; font-size: 3em;
+      animation: float 6s infinite alternate;
+    }
+    .floating-icons i:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s;}
+    .floating-icons i:nth-child(2) { left: 55%; top: 8%; animation-delay: 1s;}
+    .floating-icons i:nth-child(3) { left: 80%; top: 30%; animation-delay: 2.5s;}
+    .floating-icons i:nth-child(4) { left: 30%; top: 45%; animation-delay: 3s;}
+    @keyframes float { to { transform: translateY(-24px) scale(1.2) rotate(-10deg); opacity: 0.2; } }
+
+    .container {
+      margin: 0 auto;
+      max-width: 1100px;
+      background: rgba(255,255,255,0.96);
+      border-radius: var(--border-rad);
+      box-shadow: 0 12px 32px 0 rgba(50,50,80,0.10);
+      padding: 28px 16px 40px 16px;
+      margin-bottom: 40px;
+      position: relative;
+      transition: background 0.4s;
+    }
+    body.dark .container {
+      background: var(--dark-card);
+      color: var(--dark-text);
+    }
+    .toggle-dark {
+      position: absolute;
+      top: 26px; right: 36px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.7);
+      border: none; outline: none;
+      border-radius: 50%;
+      width: 42px; height: 42px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25em;
+      transition: background 0.4s;
+      z-index: 10;
+    }
+    body.dark .toggle-dark {
+      background: #23273a;
+      color: #90EE90;
+    }
+    .tab-bar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+      gap: 16px;
+      border-bottom: 2px solid #e0e0e0;
+    }
+    .tab-btn {
+      background: none;
+      border: none;
+      font-size: 1.1em;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: #555;
+      padding: 14px 20px 10px 20px;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: color 0.2s, border 0.2s;
+    }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent);
+    }
+    .sheet-controls {
+      text-align: center;
+      margin: 18px 0 18px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7em;
+    }
+    .sheet-controls input, .sheet-controls select {
+      border-radius: 999px;
+      border: 2px solid #ddd;
+      padding: 10px 18px;
+      margin: 0 8px;
+      outline: none;
+      font-size: 1em;
+      width: 95%;
+      max-width: 400px;
+      box-sizing: border-box;
+      transition: border 0.2s;
+    }
+    .sheet-controls input:focus {
+      border-color: var(--accent);
+    }
+    .sheet-controls .add-btn {
+      font-weight: 700;
+      color: #fff;
+      background: var(--accent-dark);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 30px;
+      margin-top: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .sheet-controls .add-btn:hover {
+      background: #219c38;
+    }
+    .courses-section {
+      margin-top: 22px;
+    }
+    .course-sheet-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      margin-bottom: 28px;
+    }
+    .course-sheet-table th, .course-sheet-table td {
+      padding: 12px;
+      text-align: left;
+    }
+    .course-sheet-table th {
+      background: var(--accent);
+      color: #333;
+      border-radius: 9px 9px 0 0;
+      font-weight: 700;
+      font-size: 1em;
+    }
+    .course-sheet-table td {
+      background: var(--card-gradient);
+      border-radius: 0 0 9px 9px;
+      font-size: 0.97em;
+      transition: background 0.2s;
+      position: relative;
+    }
+    body.dark .course-sheet-table td {
+      background: #272c3a;
+      color: var(--dark-text);
+    }
+    .course-sheet-table td .badge {
+      background: var(--accent-dark);
+      color: #fff;
+      border-radius: 999px;
+      padding: 2px 10px;
+      margin-left: 4px;
+      font-size: 0.9em;
+    }
+    .course-sheet-table td .fav-btn {
+      background: none;
+      border: none;
+      margin-left: 8px;
+      cursor: pointer;
+      color: #bbb;
+      font-size: 1.2em;
+      vertical-align: middle;
+      transition: color 0.18s;
+    }
+    .course-sheet-table td .fav-btn.fav {
+      color: #ffd700;
+      text-shadow: 0 0 7px #ffd70088;
+    }
+    .course-sheet-table td .del-btn {
+      background: none;
+      border: none;
+      color: #e25d5d;
+      font-size: 1.2em;
+      margin-left: 12px;
+      cursor: pointer;
+      vertical-align: middle;
+      transition: color 0.18s;
+    }
+    .stats-animated {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin: 24px 0 10px 0;
+    }
+    .stat-block {
+      text-align: center;
+      background: rgba(144,238,144,0.19);
+      border-radius: 16px;
+      padding: 14px 24px;
+      min-width: 115px;
+      box-shadow: 0 3px 9px 0 rgba(160,220,160, 0.08);
+      font-weight: 700;
+    }
+    .stat-block .stat-num {
+      font-size: 2em;
+      color: var(--accent-dark);
+      font-weight: 900;
+      transition: color 0.3s;
+    }
+    .stat-block .stat-label {
+      font-size: 0.92em;
+      color: #666;
+      text-transform: uppercase;
+    }
+    body.dark .stat-block {
+      background: #1c212c;
+      color: #6feba6;
+    }
+    body.dark .stat-block .stat-label { color: #90EE90; }
+    @media (max-width: 700px) {
+      .super-hero h1 { font-size: 2em; }
+      .sheet-controls input, .sheet-controls select { font-size: 0.93em; }
+      .stats-animated { flex-direction: column; gap: 12px;}
+      .container { padding: 10px 1vw 20px 1vw;}
+    }
+  </style>
+</head>
+<body>
+  <section class="super-hero">
+    <div class="floating-icons">
+      <i class="fa fa-robot"></i>
+      <i class="fa fa-brain"></i>
+      <i class="fa fa-graduation-cap"></i>
+      <i class="fa fa-bolt"></i>
+    </div>
+    <h1>Digitization & AI Portal</h1>
+    <p>El portal más cool de cursos y automatización del universo 🌌</p>
+  </section>
+  <div class="container">
+    <button class="toggle-dark" aria-label="Toggle dark mode" title="Modo oscuro">
+      <i class="fa fa-moon"></i>
+    </button>
+    <div class="tab-bar">
+      <button class="tab-btn active" data-tab="sheet"><i class="fa fa-table"></i> Hoja Dinámica</button>
+      <button class="tab-btn" data-tab="about"><i class="fa fa-users"></i> About Us</button>
+      <button class="tab-btn" data-tab="readme"><i class="fa fa-book"></i> README</button>
+    </div>
+    <!-- Dynamic Sheet Tab -->
+    <div class="tab-content" id="tab-sheet" style="display:block;">
+      <div class="sheet-controls">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre, proveedor o descripción...">
+        <form id="addCourseForm" style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px;">
+          <input required type="text" id="nameInput" placeholder="Nombre del Curso">
+          <input type="text" id="descInput" placeholder="Descripción (opcional)">
+          <input required type="text" id="provInput" placeholder="Proveedor">
+          <input type="url" id="urlInput" placeholder="URL (opcional)">
+          <select id="levelInput">
+            <option value="Principiante">Principiante</option>
+            <option value="Intermedio">Intermedio</option>
+            <option value="Avanzado">Avanzado</option>
+            <option value="Gratis">Gratis</option>
+          </select>
+          <button type="submit" class="add-btn">Agregar</button>
+        </form>
+      </div>
+      <div class="courses-section">
+        <table class="course-sheet-table" id="courseTable">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Proveedor</th>
+              <th>Nivel</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- JS will populate here -->
+          </tbody>
+        </table>
+      </div>
+      <div class="stats-animated">
+        <div class="stat-block">
+          <span class="stat-num" id="stat-total">0</span>
+          <div class="stat-label">Cursos</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-free">0</span>
+          <div class="stat-label">Gratis</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-providers">0</span>
+          <div class="stat-label">Proveedores</div>
+        </div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-levels">0</span>
+          <div class="stat-label">Niveles</div>
+        </div>
+      </div>
+    </div>
+    <!-- About Tab -->
+    <div class="tab-content" id="tab-about" style="display:none;">
+      <div style="max-width:600px;margin:0 auto;text-align:center;">
+        <img src="https://avatars.githubusercontent.com/u/3369400?v=4" alt="Luis Moreno" style="width:108px;border-radius:50%;box-shadow:0 3px 10px #90ee9044;margin-bottom:14px;">
+        <h2>Luis Moreno</h2>
+        <p><strong>Especialista en Análisis de Procesos e IA</strong></p>
+        <p>
+          Este portal fue creado para democratizar el acceso a la educación en automatización e inteligencia artificial.<br>
+          Mi misión: ayudar a profesionales y estudiantes a navegar el mundo de la IA y la automatización, con acceso directo a los mejores recursos.
+        </p>
+        <div style="margin-top:24px;">
+          <p>Contacto: <a href="mailto:Luismorenoglobal@gmail.com">Luismorenoglobal@gmail.com</a></p>
+          <p>Especialización: Análisis de Procesos e IA</p>
+          <p>Portal creado en 2025</p>
+        </div>
+      </div>
+    </div>
+    <!-- README Tab -->
+    <div class="tab-content" id="tab-readme" style="display:none;">
+      <div style="max-width:700px;margin:0 auto;">
+        <h2>🎓 Digitization and AI - Recommended Courses Portal</h2>
+        <p>Un portal web moderno y completo que reúne los mejores cursos de automatización, RPA e inteligencia artificial, organizados por niveles de dificultad y con enlaces directos a las plataformas oficiales.</p>
+        <ul>
+          <li><strong>🎯 Más de 50 cursos</strong> organizados por niveles (Principiante, Intermedio, Avanzado)</li>
+          <li><strong>🔍 Búsqueda en tiempo real</strong> por nombre, descripción o proveedor</li>
+          <li><strong>💚 20+ cursos gratuitos</strong> claramente identificados</li>
+          <li><strong>🔗 Enlaces directos</strong> a las plataformas oficiales de cada curso</li>
+          <li><strong>📱 Diseño responsivo</strong> que funciona en todos los dispositivos</li>
+          <li><strong>✨ Interfaz moderna</strong> con animaciones y efectos visuales</li>
+        </ul>
+        <p style="color:#90EE90;font-weight:bold;">¡Comienza tu viaje en la automatización e IA hoy mismo! 🚀</p>
+      </div>
+    </div>
+  </div>
+  <script>
+    // --- Tab logic ---
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = function() {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+        document.getElementById('tab-' + btn.dataset.tab).style.display = 'block';
+      }
+    });
+
+    // --- Dark mode ---
+    const darkBtn = document.querySelector('.toggle-dark');
+    function setDarkMode(on) {
+      if(on) {
+        document.body.classList.add('dark');
+        localStorage.setItem('super_dark', '1');
+      } else {
+        document.body.classList.remove('dark');
+        localStorage.setItem('super_dark', '0');
+      }
+      darkBtn.innerHTML = document.body.classList.contains('dark')
+        ? '<i class="fa fa-sun"></i>'
+        : '<i class="fa fa-moon"></i>';
+    }
+    darkBtn.onclick = () => setDarkMode(!document.body.classList.contains('dark'));
+    if(localStorage.getItem('super_dark') === '1') setDarkMode(true);
+
+    // --- Dynamic Sheet Logic ---
+    const demoCourses = [
+      {name:"Introduction to RPA",desc:"Introducción a RPA y casos de uso",prov:"UiPath",url:"https://www.coursera.org/learn/introduction-robotic-process-automation",level:"Principiante",free:true},
+      {name:"AI for Everyone",desc:"Fundamentos IA sin requisitos técnicos",prov:"Coursera - Andrew Ng",url:"https://www.coursera.org/learn/ai-for-everyone",level:"Principiante",free:false},
+      {name:"UiPath RPA Developer Advanced",desc:"Certificación RPA profesional",prov:"UiPath Academy",url:"https://academy.uipath.com/courses/uipath-rpa-developer-advanced-certification",level:"Intermedio",free:true},
+      {name:"Deep Learning Specialization",desc:"Especialización Deep Learning",prov:"Coursera - Andrew Ng",url:"https://www.coursera.org/specializations/deep-learning",level:"Avanzado",free:false},
+      {name:"Machine Learning Crash Course",desc:"ML intensivo con TensorFlow",prov:"Google AI Education",url:"https://developers.google.com/machine-learning/crash-course",level:"Gratis",free:true},
+    ];
+    let sheet = JSON.parse(localStorage.getItem('super_courses')||'null') || demoCourses;
+    let favs = JSON.parse(localStorage.getItem('super_favs')||'null') || [];
+    function saveSheet() {
+      localStorage.setItem('super_courses',JSON.stringify(sheet));
+      localStorage.setItem('super_favs',JSON.stringify(favs));
+    }
+    function renderSheet(filter="") {
+      const tbody = document.querySelector('#courseTable tbody');
+      tbody.innerHTML = "";
+      let shown = 0, free=0, providers = new Set(), levels = new Set();
+      sheet.forEach((c,i) => {
+        let search = (c.name+" "+c.desc+" "+c.prov).toLowerCase();
+        if(filter && !search.includes(filter)) return;
+        shown++;
+        providers.add(c.prov);
+        levels.add(c.level);
+        if(c.level==="Gratis" || c.free) free++;
+        let isFav = favs.includes(i);
+        tbody.innerHTML += `
+          <tr>
+            <td>${c.url?`<a href="${c.url}" target="_blank">${c.name} <i class="fa fa-arrow-up-right-from-square" style="font-size:0.85em;"></i></a>`:c.name}
+              ${c.free||c.level==="Gratis"?'<span class="badge">GRATIS</span>':''}
+            </td>
+            <td>${c.desc||'-'}</td>
+            <td>${c.prov||'-'}</td>
+            <td>${c.level}</td>
+            <td>
+              <button class="fav-btn${isFav?' fav':''}" title="${isFav?'Quitar de favoritos':'Marcar como favorito'}" onclick="toggleFav(${i})"><i class="fa fa-star"></i></button>
+              <button class="del-btn" title="Eliminar" onclick="delCourse(${i})"><i class="fa fa-trash"></i></button>
+              <button class="copy-btn" title="Compartir" onclick="shareCourse(${i})"><i class="fa fa-share-nodes"></i></button>
+            </td>
+          </tr>
+        `;
+      });
+      animateCount('stat-total',shown);
+      animateCount('stat-free',free);
+      animateCount('stat-providers',providers.size);
+      animateCount('stat-levels',levels.size);
+    }
+    function animateCount(id, to) {
+      const el = document.getElementById(id);
+      let from = +el.textContent||0;
+      if(from===to) return;
+      let step = (to-from)/24, current=from, n=0;
+      function tick(){
+        n++; current+=step;
+        el.textContent = Math.round(current);
+        if(n<25) requestAnimationFrame(tick);
+        else el.textContent=to;
+      }
+      tick();
+    }
+    function addCourse(e) {
+      e.preventDefault();
+      let name = document.getElementById('nameInput').value.trim();
+      let desc = document.getElementById('descInput').value.trim();
+      let prov = document.getElementById('provInput').value.trim();
+      let url = document.getElementById('urlInput').value.trim();
+      let level = document.getElementById('levelInput').value;
+      let free = (level==="Gratis");
+      if(!name||!prov) return;
+      sheet.unshift({name,desc,prov,url,level,free});
+      saveSheet(); renderSheet(document.getElementById('searchInput').value.toLowerCase());
+      e.target.reset();
+    }
+    function delCourse(i) {
+      if(confirm("¿Eliminar este curso?")) {
+        sheet.splice(i,1);
+        favs = favs.filter(f=>f!==i);
+        saveSheet(); renderSheet(document.getElementById('searchInput').value.toLowerCase());
+      }
+    }
+    function toggleFav(i) {
+      let idx = favs.indexOf(i);
+      if(idx>=0) favs.splice(idx,1); else favs.push(i);
+      saveSheet(); renderSheet(document.getElementById('searchInput').value.toLowerCase());
+    }
+    function shareCourse(i) {
+      let c = sheet[i];
+      let text = `¡Mira este curso: ${c.name} (${c.prov})\n${c.desc}\n${c.url||''}`;
+      if(navigator.share) {
+        navigator.share({title:c.name,text,url:c.url||location.href});
+      } else {
+        navigator.clipboard.writeText(text);
+        alert("¡Curso copiado al portapapeles!");
+      }
+    }
+    document.getElementById('addCourseForm').onsubmit = addCourse;
+    document.getElementById('searchInput').oninput = e => renderSheet(e.target.value.toLowerCase());
+    window.toggleFav = toggleFav;
+    window.delCourse = delCourse;
+    window.shareCourse = shareCourse;
+    renderSheet();
+
+    // --- Easter egg: Konami code unlocks hidden course! ---
+    let code = [38,38,40,40,37,39,37,39,66,65], pos=0;
+    document.addEventListener('keydown',function(e){
+      if(e.keyCode === code[pos]) pos++;
+      else pos=0;
+      if(pos===code.length) {
+        sheet.unshift({name:"💎 Curso Secreto",desc:"¡Has desbloqueado el curso oculto!",prov:"OpenAI",url:"https://openai.com",level:"Experto",free:true});
+        saveSheet(); renderSheet();
+        alert("¡Curso oculto desbloqueado!");
+        pos=0;
+      }
+    });
+  </script>
+</body>
+</html>
